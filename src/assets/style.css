@@ -1,3 +1,7 @@
+body {
+  line-height: 20px;
+}
+
 .app {
   font-family: 'Roboto', sans-serif;
   text-rendering: geometricPrecision;

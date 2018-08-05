@@ -9,9 +9,17 @@ class Day extends Component {
   componentDidMount() {}
 
   render() {
-    const { day } = this.props;
+    const { day, today } = this.props;
 
-    return <td>{day !== '' && <span>{day}</span>}</td>;
+    const isCurrentDay =
+      today.isActiveMonth && today.isCurrentYear && today.date === day;
+    return (
+      <td>
+        {day !== '' && (
+          <span className={isCurrentDay ? 'today' : ''}>{day}</span>
+        )}
+      </td>
+    );
   }
 }
 

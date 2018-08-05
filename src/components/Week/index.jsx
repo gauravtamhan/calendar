@@ -10,12 +10,12 @@ class Week extends Component {
   componentDidMount() {}
 
   render() {
-    const { week } = this.props;
+    const { week, today } = this.props;
 
     return (
       <tr>
         {week.map((val, i) => (
-          <Day key={i} day={val} />
+          <Day key={i} day={val} today={today} />
         ))}
       </tr>
     );

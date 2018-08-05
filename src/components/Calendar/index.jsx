@@ -5,15 +5,23 @@ class Calendar extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      startingDay: null
+      startingDay: null,
+      today: {}
     };
   }
 
   componentWillReceiveProps(newProps) {
     if (newProps.year !== this.props.year) {
       const start_day = new Date(newProps.year, this.props.month, 1).getDay();
+      const d = new Date();
+      const today = {
+        date: d.getDate(),
+        isCurrentYear: d.getFullYear() === newProps.year,
+        isActiveMonth: d.getMonth() === this.props.month
+      };
       this.setState({
-        startingDay: start_day
+        startingDay: start_day,
+        today: today
       });
     }
   }
@@ -34,7 +42,7 @@ class Calendar extends Component {
 
   render() {
     const { monthName, numDays } = this.props;
-    const { startingDay } = this.state;
+    const { startingDay, today } = this.state;
 
     const computedDays = this.computeDays(startingDay);
     const numWeeks = Math.ceil((startingDay + numDays) / 7);
@@ -59,7 +67,11 @@ class Calendar extends Component {
                   <td>S</td>
                 </tr>
                 {numWeeksArr.map(i => (
-                  <Week key={i} week={computedDays.splice(0, 7)} />
+                  <Week
+                    key={i}
+                    week={computedDays.splice(0, 7)}
+                    today={today}
+                  />
                 ))}
               </tbody>
             </table>
