@@ -3,7 +3,7 @@ import logo from 'assets/logo-shadow.png';
 
 class TitleBar extends Component {
   render() {
-    const { year, count, next, prev } = this.props;
+    const { year, count, updateYear } = this.props;
     return (
       <header>
         <div className="logo d-none d-md-block">
@@ -15,13 +15,17 @@ class TitleBar extends Component {
             <div className="btn-group">
               <button
                 className="mdl-button mdl-js-button mdl-button--icon"
-                onClick={prev}
+                onClick={() => {
+                  updateYear(-1);
+                }}
               >
                 <i className="material-icons">chevron_left</i>
               </button>
               <button
                 className="mdl-button mdl-js-button mdl-button--icon"
-                onClick={next}
+                onClick={() => {
+                  updateYear(1);
+                }}
               >
                 <i className="material-icons">chevron_right</i>
               </button>

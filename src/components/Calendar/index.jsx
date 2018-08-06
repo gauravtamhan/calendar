@@ -1,11 +1,13 @@
 import React, { Component } from 'react';
 import Week from 'components/Week/index';
+import { CSSTransition } from 'react-transition-group';
 
 class Calendar extends Component {
   constructor(props) {
     super(props);
     this.state = {
       startingDay: null,
+      animateIn: true,
       today: {}
     };
   }
@@ -19,11 +21,17 @@ class Calendar extends Component {
         isCurrentYear: d.getFullYear() === newProps.year,
         isActiveMonth: d.getMonth() === this.props.month
       };
-      this.setState({
-        startingDay: start_day,
-        today: today
-      });
+      setTimeout(() => {
+        this.setState({
+          startingDay: start_day,
+          today: today
+        });
+      }, 160);
     }
+
+    this.setState({
+      animateIn: false
+    });
   }
 
   computeDays = start_day => {
@@ -41,12 +49,11 @@ class Calendar extends Component {
   };
 
   render() {
-    const { monthName, numDays } = this.props;
+    const { monthName } = this.props;
     const { startingDay, today } = this.state;
 
     const computedDays = this.computeDays(startingDay);
-    const numWeeks = Math.ceil((startingDay + numDays) / 7);
-    const numWeeksArr = Array.from(new Array(numWeeks), (val, index) => index);
+    const numWeeksArr = Array.from(new Array(6), (val, index) => index);
 
     return (
       <div className="col-12 col-md-6 col-lg-4 col-xl-3">
@@ -67,11 +74,19 @@ class Calendar extends Component {
                   <td>S</td>
                 </tr>
                 {numWeeksArr.map(i => (
-                  <Week
+                  <CSSTransition
                     key={i}
-                    week={computedDays.splice(0, 7)}
-                    today={today}
-                  />
+                    in={this.state.animateIn}
+                    timeout={200}
+                    classNames="fade"
+                    onExited={() => {
+                      this.setState({
+                        animateIn: true
+                      });
+                    }}
+                  >
+                    <Week week={computedDays.splice(0, 7)} today={today} />
+                  </CSSTransition>
                 ))}
               </tbody>
             </table>

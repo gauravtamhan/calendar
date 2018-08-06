@@ -71,27 +71,21 @@ class App extends Component {
     });
   }
 
-  incrementYear = () => {
+  updateYear = n => {
     this.setState({
-      chosenYear: this.state.chosenYear + 1
-    });
-  };
-
-  decrementYear = () => {
-    this.setState({
-      chosenYear: this.state.chosenYear - 1
+      chosenYear: n > 0 ? this.state.chosenYear + 1 : this.state.chosenYear - 1
     });
   };
 
   render() {
     const { chosenYear, count } = this.state;
+
     return (
       <div className="app">
         <TitleBar
           year={chosenYear}
           count={count}
-          next={this.incrementYear}
-          prev={this.decrementYear}
+          updateYear={this.updateYear}
         />
         {/* --- Fab --- */}
         <div className="fab-holder">
