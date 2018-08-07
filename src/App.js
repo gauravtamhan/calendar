@@ -60,15 +60,40 @@ class App extends Component {
     super(props);
     this.state = {
       chosenYear: null,
-      count: 0
+      markedDates: []
     };
   }
 
   componentDidMount() {
-    const d = new Date();
+    const year = new Date().getFullYear();
     this.setState({
-      chosenYear: d.getFullYear()
+      chosenYear: year
     });
+    this.initMarkedDates(year);
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    if (nextState.chosenYear !== this.state.chosenYear) {
+      this.initMarkedDates(nextState.chosenYear);
+    } else {
+      localStorage.setItem(
+        this.state.chosenYear,
+        JSON.stringify(nextState.markedDates)
+      );
+    }
+  }
+
+  initMarkedDates(year) {
+    const entry = localStorage.getItem(year);
+    if (entry) {
+      this.setState({
+        markedDates: JSON.parse(entry)
+      });
+    } else {
+      this.setState({
+        markedDates: []
+      });
+    }
   }
 
   updateYear = n => {
@@ -77,20 +102,28 @@ class App extends Component {
     });
   };
 
-  updateCount = n => {
+  addDate = newElement => {
     this.setState({
-      count: n > 0 ? this.state.count + 1 : this.state.count - 1
+      markedDates: [...this.state.markedDates, newElement]
+    });
+  };
+
+  removeDate = (m, d) => {
+    this.setState({
+      markedDates: this.state.markedDates.filter(
+        obj => obj.month !== m || obj.day !== d
+      )
     });
   };
 
   render() {
-    const { chosenYear, count } = this.state;
+    const { chosenYear, markedDates } = this.state;
 
     return (
       <div className="app">
         <TitleBar
           year={chosenYear}
-          count={count}
+          count={markedDates.length}
           updateYear={this.updateYear}
         />
         {/* --- Fab --- */}
@@ -114,8 +147,10 @@ class App extends Component {
                 monthName={o.month}
                 month={i}
                 year={chosenYear}
+                markedDates={markedDates}
                 numDays={o.numDays}
-                updateCount={this.updateCount}
+                addDate={this.addDate}
+                removeDate={this.removeDate}
               />
             ))}
           </div>

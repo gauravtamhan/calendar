@@ -21,12 +21,12 @@ class Calendar extends Component {
         isCurrentYear: d.getFullYear() === newProps.year,
         isActiveMonth: d.getMonth() === this.props.month
       };
-      setTimeout(() => {
-        this.setState({
-          startingDay: start_day,
-          today: today
-        });
-      }, 160);
+
+      this.setState({
+        startingDay: start_day,
+        today: today
+      });
+
       this.setState({
         animateIn: false
       });
@@ -48,7 +48,7 @@ class Calendar extends Component {
   };
 
   render() {
-    const { monthName, updateCount } = this.props;
+    const { monthName, month, markedDates, addDate, removeDate } = this.props;
     const { startingDay, today } = this.state;
 
     const computedDays = this.computeDays(startingDay);
@@ -76,7 +76,7 @@ class Calendar extends Component {
                   <CSSTransition
                     key={i}
                     in={this.state.animateIn}
-                    timeout={200}
+                    timeout={100}
                     classNames="fade"
                     onExited={() => {
                       this.setState({
@@ -87,7 +87,10 @@ class Calendar extends Component {
                     <Week
                       week={computedDays.splice(0, 7)}
                       today={today}
-                      updateCount={updateCount}
+                      month={month}
+                      markedDates={markedDates}
+                      addDate={addDate}
+                      removeDate={removeDate}
                     />
                   </CSSTransition>
                 ))}

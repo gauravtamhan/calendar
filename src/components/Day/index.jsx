@@ -11,14 +11,31 @@ class Day extends Component {
   toggleMark = () => {
     const newMarkedState = !this.state.isMarked;
     if (newMarkedState) {
-      this.props.updateCount(1);
+      this.props.addDate({
+        month: this.props.month,
+        day: this.props.day
+      });
     } else {
-      this.props.updateCount(-1);
+      this.props.removeDate(this.props.month, this.props.day);
     }
     this.setState({
       isMarked: newMarkedState
     });
   };
+
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      isMarked: false
+    });
+    const foundMatch = nextProps.markedDates.filter(
+      obj => obj.month === nextProps.month && obj.day === nextProps.day
+    );
+    if (foundMatch.length > 0) {
+      this.setState({
+        isMarked: true
+      });
+    }
+  }
 
   render() {
     const { day, today } = this.props;

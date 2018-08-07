@@ -38,7 +38,7 @@ class TitleBar extends Component {
             </span>
           </div>
           <div className="mdl-tooltip" data-mdl-for="cc">
-            Total Count
+            Yearly Total
           </div>
         </div>
       </header>

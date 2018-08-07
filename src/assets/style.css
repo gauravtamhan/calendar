@@ -181,7 +181,7 @@ span.marked {
 
 span.today {
   font-weight: 900;
-  font-size: 18px;
+  font-size: 16px;
 }
 
 table td span {
@@ -271,5 +271,5 @@ table td span.marked:hover {
 
 .fade-exit-active {
   opacity: 0;
-  transition: all 100ms ease-in;
+  transition: all 0ms ease-in;
 }
