@@ -27,11 +27,10 @@ class Calendar extends Component {
           today: today
         });
       }, 160);
+      this.setState({
+        animateIn: false
+      });
     }
-
-    this.setState({
-      animateIn: false
-    });
   }
 
   computeDays = start_day => {
@@ -49,7 +48,7 @@ class Calendar extends Component {
   };
 
   render() {
-    const { monthName } = this.props;
+    const { monthName, updateCount } = this.props;
     const { startingDay, today } = this.state;
 
     const computedDays = this.computeDays(startingDay);
@@ -85,7 +84,11 @@ class Calendar extends Component {
                       });
                     }}
                   >
-                    <Week week={computedDays.splice(0, 7)} today={today} />
+                    <Week
+                      week={computedDays.splice(0, 7)}
+                      today={today}
+                      updateCount={updateCount}
+                    />
                   </CSSTransition>
                 ))}
               </tbody>

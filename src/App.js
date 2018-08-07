@@ -77,6 +77,12 @@ class App extends Component {
     });
   };
 
+  updateCount = n => {
+    this.setState({
+      count: n > 0 ? this.state.count + 1 : this.state.count - 1
+    });
+  };
+
   render() {
     const { chosenYear, count } = this.state;
 
@@ -109,6 +115,7 @@ class App extends Component {
                 month={i}
                 year={chosenYear}
                 numDays={o.numDays}
+                updateCount={this.updateCount}
               />
             ))}
           </div>
