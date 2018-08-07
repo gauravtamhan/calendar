@@ -31,7 +31,7 @@ class Day extends Component {
         {day !== '' && (
           <span
             className={
-              (isCurrentDay ? 'today' : '') + '' + (isMarked ? 'marked' : '')
+              (isCurrentDay ? 'today' : '') + ' ' + (isMarked ? 'marked' : '')
             }
             onClick={this.toggleMark}
           >
