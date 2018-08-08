@@ -48,17 +48,33 @@ class Calendar extends Component {
   };
 
   render() {
-    const { monthName, month, markedDates, addDate, removeDate } = this.props;
+    const {
+      monthName,
+      month,
+      markedDates,
+      showMonthlyCount,
+      addDate,
+      removeDate
+    } = this.props;
     const { startingDay, today } = this.state;
 
     const computedDays = this.computeDays(startingDay);
     const numWeeksArr = Array.from(new Array(6), (val, index) => index);
+
+    const miniCount = showMonthlyCount
+      ? markedDates.filter(obj => obj.month === month).length
+      : 0;
 
     return (
       <div className="col-12 col-md-6 col-lg-4 col-xl-3">
         <div className="cal">
           <div className="header">
             <span>{monthName}</span>
+            {showMonthlyCount && (
+              <div className="mini-count">
+                <span>{miniCount}</span>
+              </div>
+            )}
           </div>
           <div className="body">
             <table>

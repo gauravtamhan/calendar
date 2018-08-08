@@ -3,7 +3,7 @@ import logo from 'assets/logo.png';
 
 class TitleBar extends Component {
   render() {
-    const { year, count, updateYear } = this.props;
+    const { year, count, updateYear, setVisibility } = this.props;
     return (
       <header>
         <div className="logo d-none d-md-block">
@@ -32,7 +32,29 @@ class TitleBar extends Component {
             </div>
             <span>{year}</span>
           </div>
-          <div className="count-box">
+
+          <div>
+            <div className="btn-wrapper">
+              <button
+                id="menu-lower-right"
+                className="mdl-button mdl-js-button mdl-button--icon"
+              >
+                <i className="material-icons">settings</i>
+              </button>
+              <ul
+                className="mdl-menu mdl-menu--bottom-right mdl-js-menu mdl-js-ripple-effect"
+                htmlFor="menu-lower-right"
+              >
+                <li
+                  className="mdl-menu__item"
+                  onClick={() => {
+                    setVisibility();
+                  }}
+                >
+                  Toggle Monthly Count
+                </li>
+              </ul>
+            </div>
             <span className="count" id="cc">
               {count}
             </span>

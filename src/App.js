@@ -60,7 +60,8 @@ class App extends Component {
     super(props);
     this.state = {
       chosenYear: null,
-      markedDates: []
+      markedDates: [],
+      showMonthlyCount: false
     };
   }
 
@@ -70,6 +71,9 @@ class App extends Component {
       chosenYear: year
     });
     this.initMarkedDates(year);
+    this.setState({
+      showMonthlyCount: JSON.parse(localStorage.getItem('preference'))
+    });
   }
 
   componentWillUpdate(nextProps, nextState) {
@@ -79,6 +83,10 @@ class App extends Component {
       localStorage.setItem(
         this.state.chosenYear,
         JSON.stringify(nextState.markedDates)
+      );
+      localStorage.setItem(
+        'preference',
+        JSON.stringify(nextState.showMonthlyCount)
       );
     }
   }
@@ -95,6 +103,10 @@ class App extends Component {
       });
     }
   }
+
+  setMonthlyCountVisibility = () => {
+    this.setState({ showMonthlyCount: !this.state.showMonthlyCount });
+  };
 
   updateYear = n => {
     this.setState({
@@ -117,7 +129,7 @@ class App extends Component {
   };
 
   render() {
-    const { chosenYear, markedDates } = this.state;
+    const { chosenYear, markedDates, showMonthlyCount } = this.state;
 
     return (
       <div className="app">
@@ -125,6 +137,8 @@ class App extends Component {
           year={chosenYear}
           count={markedDates.length}
           updateYear={this.updateYear}
+          showMonthlyCount={showMonthlyCount}
+          setVisibility={this.setMonthlyCountVisibility}
         />
         {/* --- Fab --- */}
         <div className="fab-holder">
@@ -151,6 +165,7 @@ class App extends Component {
                 numDays={o.numDays}
                 addDate={this.addDate}
                 removeDate={this.removeDate}
+                showMonthlyCount={showMonthlyCount}
               />
             ))}
           </div>
