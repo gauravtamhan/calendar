@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import logo from 'assets/logo-shadow.png';
+import logo from 'assets/logo.png';
 
 class TitleBar extends Component {
   render() {
