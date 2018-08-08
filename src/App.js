@@ -132,7 +132,7 @@ class App extends Component {
             id="fab"
             className="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
           >
-            <i className="material-icons">calendar_today</i>
+            <i className="material-icons">done</i>
           </button>
           <div className="mdl-tooltip mdl-tooltip--left" data-mdl-for="fab">
             Mark Today Complete
