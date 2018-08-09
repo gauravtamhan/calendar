@@ -9,6 +9,7 @@
     "prettier": "^1.14.0",
     "react": "^16.4.2",
     "react-dom": "^16.4.2",
+    "react-input-autosize": "^2.2.1",
     "react-scripts": "1.1.4",
     "react-transition-group": "^2.4.0"
   },

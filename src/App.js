@@ -61,7 +61,9 @@ class App extends Component {
     this.state = {
       chosenYear: null,
       markedDates: [],
-      showMonthlyCount: false
+      showMonthlyCount: false,
+      title: '',
+      theme: 'blue'
     };
   }
 
@@ -71,14 +73,22 @@ class App extends Component {
       chosenYear: year
     });
     this.initMarkedDates(year);
+    const foundTitle = localStorage.getItem('title');
+    const foundTheme = localStorage.getItem('theme');
     this.setState({
-      showMonthlyCount: JSON.parse(localStorage.getItem('preference'))
+      showMonthlyCount: localStorage.getItem('preference'),
+      title: foundTitle ? foundTitle : 'Calendar',
+      theme: foundTheme ? foundTheme : 'blue'
     });
   }
 
   componentWillUpdate(nextProps, nextState) {
     if (nextState.chosenYear !== this.state.chosenYear) {
       this.initMarkedDates(nextState.chosenYear);
+    } else if (nextState.title !== this.state.title) {
+      localStorage.setItem('title', nextState.title);
+    } else if (nextState.theme !== this.state.theme) {
+      localStorage.setItem('theme', nextState.theme);
     } else {
       localStorage.setItem(
         this.state.chosenYear,
@@ -103,6 +113,15 @@ class App extends Component {
       });
     }
   }
+
+  setTheme = color => {
+    this.setState({ theme: color });
+  };
+
+  handleTextInput = e => {
+    const val = e.target.value;
+    this.setState({ title: val });
+  };
 
   setMonthlyCountVisibility = () => {
     this.setState({ showMonthlyCount: !this.state.showMonthlyCount });
@@ -129,7 +148,13 @@ class App extends Component {
   };
 
   render() {
-    const { chosenYear, markedDates, showMonthlyCount } = this.state;
+    const {
+      chosenYear,
+      markedDates,
+      showMonthlyCount,
+      title,
+      theme
+    } = this.state;
 
     return (
       <div className="app">
@@ -138,10 +163,13 @@ class App extends Component {
           count={markedDates.length}
           updateYear={this.updateYear}
           showMonthlyCount={showMonthlyCount}
+          title={title}
+          handleTextInput={this.handleTextInput}
           setVisibility={this.setMonthlyCountVisibility}
+          setTheme={this.setTheme}
         />
         {/* --- Fab --- */}
-        <div className="fab-holder">
+        {/* <div className="fab-holder">
           <button
             id="fab"
             className="mdl-button mdl-js-button mdl-button--fab mdl-js-ripple-effect mdl-button--colored"
@@ -151,9 +179,9 @@ class App extends Component {
           <div className="mdl-tooltip mdl-tooltip--left" data-mdl-for="fab">
             Mark Today Complete
           </div>
-        </div>
+        </div> */}
         {/* --------- */}
-        <div className="container-fluid">
+        <div className={'container-fluid ' + theme}>
           <div className="row">
             {monthData.map((o, i) => (
               <Calendar
